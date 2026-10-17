@@ -1,0 +1,19 @@
+:root{--bg:#f3f1ec;--card:#fff;--ink:#16212b;--mut:#66727e;--line:#d9d6cf;--acc:#12706b;--warn:#b6470f}
+@media(prefers-color-scheme:dark){:root{--bg:#11181f;--card:#19232d;--ink:#e9eef2;--mut:#95a2ae;--line:#2c3a47;--acc:#3dbcb3;--warn:#f2905a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:24px 16px 48px}h1{font:600 28px Georgia,serif;margin:0}.sub,.note{color:var(--mut);font-size:14px}
+.stage{display:flex;flex-direction:column;align-items:center;gap:8px;margin:20px 0}
+#mic{width:96px;height:96px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:38px;cursor:pointer}
+#mic.on{background:var(--warn);animation:p 1.2s infinite}@keyframes p{50%{box-shadow:0 0 0 14px rgba(182,71,15,.2)}}
+@media(prefers-reduced-motion:reduce){#mic.on{animation:none}}
+.link{background:none;border:0;color:var(--acc);text-decoration:underline;cursor:pointer;font:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#log{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto;margin-bottom:12px}
+.m{padding:9px 13px;border-radius:14px;max-width:88%}.me{align-self:flex-end;background:var(--acc);color:#fff}.bot{background:var(--card);border:1px solid var(--line)}
+.c{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}.c.sel{border:2px solid var(--acc)}
+.c b.big{font-size:20px}.c .r{display:flex;justify-content:space-between;gap:8px}.t{font-size:13px;color:var(--mut)}.skip{color:var(--warn);font-size:13px;margin-bottom:10px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:1px 9px;font-size:12.5px;margin:4px 4px 0 0}
+.ok{background:var(--acc);color:#fff;padding:12px;border-radius:10px;font-weight:600;margin-top:8px}
+form{display:flex;gap:8px;margin-top:14px}input{flex:1;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+form button{padding:10px 16px;border:0;border-radius:8px;background:var(--ink);color:var(--bg);font:inherit;cursor:pointer}
+ul{padding-left:18px}

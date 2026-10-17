@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice Rebooking Assistant (demo)</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<h1>Rebooking assistant</h1>
+<p class="sub">Demo with mock data. Tap the mic and talk.</p>
+<div class="stage">
+  <button id="mic" aria-label="Start talking">🎤</button>
+  <div id="status" role="status">Tap the mic and speak</div>
+  <button id="ex" class="link">Try the example</button>
+  <button id="mute" class="link">Mute voice</button>
+</div>
+<div id="log" aria-live="polite"></div>
+<div id="cards"></div>
+<div id="hand"></div>
+<form id="f"><input id="txt" placeholder="or type here" autocomplete="off"><button>Send</button></form>
+<p class="note">Flights, seats and prices are synthetic. Ticketing is simulated.</p>
+</main>
+<script src="data.js"></script><script src="app.js"></script></body></html>
