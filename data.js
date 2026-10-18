@@ -2,7 +2,7 @@
 const m = (h, mi = 0) => h * 60 + mi;
 const DEMO = {
   now: m(9, 45),                                   // simulated clock
-  traveler: 'J. Rahman', ref: 'AX7K2Q',
+
   cancelled: { carrier: 'Air Canada', no: 'AC 408', dep: m(11) },
   windowMins: 120,                                 // "same time" = +/- 2h of original departure
   toDowntown: { YUL: 35, VIA: 10 },                // arrival hub to downtown Montreal

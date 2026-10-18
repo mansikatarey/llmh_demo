@@ -1,14 +1,18 @@
-# Voice Rebooking Assistant (demo)
-Static site, no build. Host on GitHub Pages (Settings > Pages > main / root). Voice needs https and Chrome, Edge or Safari.
+# Scully: voice rebooking assistant (demo)
+Static site. Host on GitHub Pages (Settings > Pages > main / root). Voice needs https and Chrome, Edge or Safari.
 
-Try: "I need to rebook my flight, it got cancelled. What options do you have leaving from Toronto to Montreal within the same time?"
-Then: "option two", "yes". Also: "cheapest", "fastest", "lowest risk", "start over".
+Flow: "What's your booking number?" > "How can I help you?" > "Rebook my cancelled flight" > options > "option two" > "yes".
+Booking numbers are not validated in the demo (any 5-8 letters/digits work, e.g. AX7K2Q).
+
+## ElevenLabs voice (optional, key stays secret)
+1. Pick a voice in ElevenLabs and copy its Voice ID. Create an API key.
+2. `npm i -g wrangler`, then in this folder: `wrangler deploy`
+3. `wrangler secret put ELEVEN_KEY`, `wrangler secret put VOICE_ID`, `wrangler secret put ALLOWED_ORIGIN` (https://YOUR-USER.github.io)
+4. Put the worker URL in `config.js` as TTS_PROXY and push. Without it the browser's built-in voice is used.
 
 ## Files
-- `data.js` mock itinerary, airports, ground times, flights (replace with APIs in production)
-- `app.js` speech in/out, intent rules, ranking, handoff
-- `style.css`, `index.html` UI
+data.js (mock data) · app.js (conversation, ranking, voice) · config.js · worker.js + wrangler.toml (TTS proxy) · index.html, style.css
 
 ## Architecture
-Mic > SpeechRecognition > intent parser > ranking engine (deterministic) > spoken reply (SpeechSynthesis) + cards > agent handoff > simulated verification.
-Production: swap parser for an LLM with tool calls; swap data.js for PNR, inventory, maps and policy APIs; add OTP/SSO identity and a gated rebooking executor.
+Mic > SpeechRecognition > step-based intent rules > deterministic ranking > short spoken reply (ElevenLabs via proxy) + option cards on screen > agent handoff > simulated verification.
+Production: LLM with tool calls for intent, real PNR/inventory/maps/policy APIs, OTP/SSO identity, gated rebooking executor.
