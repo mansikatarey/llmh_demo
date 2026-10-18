@@ -28,3 +28,6 @@ footer{display:flex;gap:10px;padding:14px;align-items:center}
 form{display:flex;gap:8px;padding:0 14px 16px}input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
 form button{border:0;border-radius:10px;background:var(--navy);color:#fff;padding:0 16px;font:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+#vs{margin:8px auto 0;max-width:340px;text-align:left}#vs summary{cursor:pointer;color:var(--acc);text-align:center;font-size:14px}
+#vs input{width:100%;margin-top:8px}#vs button{margin-top:8px;border:0;border-radius:10px;background:var(--navy);color:#fff;padding:9px 14px;font:inherit;cursor:pointer}

@@ -9,18 +9,22 @@ const line = (o, i) => o.rail
 const place = o => o.rail ? 'Union Station' : DEMO.from[o.from].name;
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let rec = null, audio = null, timer = null;
+const store = { get: k => { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
 
 /* ---------- voice out: ElevenLabs via proxy, falls back to browser voice ---------- */
 function stopSpeech() { if (audio) { audio.pause(); audio = null; } window.speechSynthesis && speechSynthesis.cancel(); }
 async function speak(text, gen) {
-  if (CFG.TTS_PROXY) {
+  const key = store.get('el_key'), voice = store.get('el_voice'); let req = null; S.ttsErr = '';
+  if (key && voice) req = fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voice)}?output_format=mp3_44100_128`, { method: 'POST', headers: { 'xi-api-key': key, 'Content-Type': 'application/json' }, body: JSON.stringify({ text, model_id: 'eleven_flash_v2_5' }) });
+  else if (CFG.TTS_PROXY) req = fetch(CFG.TTS_PROXY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+  if (req) {
     try {
-      const r = await fetch(CFG.TTS_PROXY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
-      if (!r.ok) throw new Error('tts ' + r.status);
+      const r = await req;
+      if (!r.ok) throw new Error('ElevenLabs error ' + r.status);
       if (gen !== S.gen) return;
       audio = new Audio(URL.createObjectURL(await r.blob()));
       return new Promise(res => { audio.onended = audio.onerror = res; audio.play().catch(res); });
-    } catch (e) { console.warn('ElevenLabs failed, using browser voice', e); }
+    } catch (e) { S.ttsErr = e.message; console.warn('ElevenLabs failed, using browser voice', e); }
   }
   if (window.speechSynthesis && gen === S.gen)
     return new Promise(res => { const u = new SpeechSynthesisUtterance(text); u.lang = 'en-CA'; u.onend = u.onerror = res; speechSynthesis.speak(u); });
@@ -147,3 +151,12 @@ $('start').onclick = startCall;
 $('end').onclick = endCall;
 $('mic').onclick = () => { if (rec) { S.auto = false; stopListening(); mstat('Tap to talk'); } else { stopSpeech(); S.gen++; S.auto = true; listen(); } };
 $('f').onsubmit = e => { e.preventDefault(); const v = $('txt').value.trim(); if (v) { $('txt').value = ''; handle(v); } };
+
+/* ---------- personal voice settings (key stays in this browser only) ---------- */
+$('ek').value = store.get('el_key'); $('vid').value = store.get('el_voice');
+$('vsave').onclick = async () => {
+  store.set('el_key', $('ek').value.trim()); store.set('el_voice', $('vid').value.trim());
+  $('vmsg').textContent = 'Testing…';
+  await speak('Hi, this is Scully. Your voice is working.', ++S.gen);
+  $('vmsg').textContent = S.ttsErr ? 'Failed: ' + S.ttsErr + '. Check key and voice ID.' : 'Saved. Voice works.';
+};
