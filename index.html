@@ -7,6 +7,11 @@
   <h1>Flight cancelled?</h1>
   <p>Skip the wait. Scully starts rebooking you while you hold for an agent.</p>
   <button id="start" class="go">📞 Start call</button>
+  <details id="vs"><summary>Voice settings (ElevenLabs)</summary>
+    <input id="ek" type="password" placeholder="ElevenLabs API key" autocomplete="off">
+    <input id="vid" placeholder="Voice ID" autocomplete="off">
+    <button id="vsave" type="button">Save and test</button><div id="vmsg" class="note"></div>
+    <div class="note">Saved only in this browser. Don’t use on a shared device.</div></details>
   <p class="note">Demo with mock data. Allow microphone access when asked.</p>
 </section>
 <section id="call" class="panel hide">
